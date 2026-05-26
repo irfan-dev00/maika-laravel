@@ -1,0 +1,63 @@
+# ============================================================
+# Laravel
+# ============================================================
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+
+# Environment & secrets — JANGAN pernah di-commit
+.env
+.env.*
+!.env.example
+
+# Cache & compiled files
+/bootstrap/cache/*.php
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/storage/logs/*
+*.log
+
+# Test results
+.phpunit.result.cache
+/coverage
+
+# ============================================================
+# Build output (Laravel Mix / Vite)
+# ============================================================
+/public/css/app.css
+/public/js/app.js
+/public/js/app.js.map
+/public/mix-manifest.json
+/public/fonts/*
+npm-debug.log
+yarn-error.log
+
+# ============================================================
+# OS & IDE
+# ============================================================
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+/.idea
+/.vscode
+*.sublime-project
+*.sublime-workspace
+
+# ============================================================
+# Misc
+# ============================================================
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml

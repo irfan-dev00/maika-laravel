@@ -1,0 +1,341 @@
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~bootstrap/scss/bootstrap";
+
+html,
+body {
+    height: 100%;
+}
+
+.sb-nav-fixed .sb-topnav {
+    z-index: 1039;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
+    width: 225px;
+    height: 100vh;
+    z-index: 1045; // di atas backdrop
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav {
+    padding-top: 56px;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+    top: 56px;
+    padding-left: 0; // default mobile: tidak ada padding
+}
+
+@media (min-width: 992px) {
+    .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+        padding-left: 0; // sidebar sudah jadi flex sibling, tidak perlu padding tambahan
+    }
+}
+
+#layoutSidenav {
+    display: flex;
+}
+
+// === MOBILE: sidebar sebagai OVERLAY (fixed), bukan push content ===
+#layoutSidenav #layoutSidenav_nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 225px;
+    flex-shrink: 0;
+    transition: transform .2s ease-in-out;
+    transform: translateX(-225px);
+}
+
+#layoutSidenav #layoutSidenav_content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 56px);
+    width: 100%;
+    margin-left: 0; // tidak push content lagi
+}
+
+body.sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+    transform: translateX(0);
+}
+
+// Backdrop hanya muncul saat sidebar terbuka di mobile
+.sb-sidenav-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 1044;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s ease-in-out;
+}
+body.sb-sidenav-toggled .sb-sidenav-backdrop {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (min-width: 992px) {
+    // Desktop: sidebar kembali jadi flex sibling (push content)
+    #layoutSidenav #layoutSidenav_nav {
+        position: relative;
+        flex-basis: 225px;
+        transform: translateX(0);
+    }
+    #layoutSidenav #layoutSidenav_content {
+        margin-left: 0;
+        transition: margin .15s ease-in-out;
+    }
+    body.sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+        transform: translateX(-225px);
+        margin-left: -225px;
+    }
+    body.sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
+        margin-left: 0;
+    }
+    // Backdrop tidak pernah tampil di desktop
+    .sb-sidenav-backdrop {
+        display: none !important;
+    }
+}
+
+.sb-sidenav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-wrap: nowrap;
+}
+
+.sb-sidenav .sb-sidenav-menu {
+    flex-grow: 1;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav {
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    position: relative;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-nav-link-icon {
+    margin-right: .5rem;
+    width: 1rem;
+    color: inherit;
+    opacity: .7;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-sidenav-collapse-arrow {
+    margin-left: auto;
+    transition: transform .15s ease;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .nav-link.collapsed .sb-sidenav-collapse-arrow {
+    transform: rotate(-90deg);
+}
+
+.sb-sidenav .sb-sidenav-footer {
+    padding: .75rem;
+    flex-shrink: 0;
+}
+
+.sb-sidenav-light {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.sb-sidenav-light .nav-link {
+    color: var(--bs-body-color);
+    opacity: .9;
+}
+
+.sb-sidenav-light .nav-link:hover {
+    opacity: 1;
+}
+
+.sb-sidenav-dark {
+    background-color: var(--bs-dark);
+    color: rgba(255, 255, 255, .75);
+}
+
+[data-bs-theme="dark"] .sb-sidenav-dark {
+    background-color: #0f172a;
+}
+
+.sb-sidenav-dark .nav-link {
+    color: rgba(255, 255, 255, .75);
+}
+
+.sb-sidenav-dark .nav-link:hover {
+    color: #fff;
+}
+
+.sb-sidenav-dark .sb-sidenav-menu-heading {
+    padding: 1.25rem 1rem .75rem;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: .5;
+}
+
+.sb-sidenav-dark .sb-sidenav-footer {
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.sb-sidenav-light .sb-sidenav-menu-heading {
+    padding: 1.25rem 1rem .75rem;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: .6;
+}
+
+
+// ===== Responsive utilities (mobile portrait) =====
+@media (max-width: 575.98px) {
+    .container-fluid {
+        padding-left: .75rem;
+        padding-right: .75rem;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+    h2 { font-size: 1.25rem; }
+    .breadcrumb {
+        font-size: .8rem;
+    }
+    // Topnav: kompak
+    .sb-topnav .navbar-brand {
+        font-size: 1rem;
+        max-width: 40vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    // Card body padding lebih kecil
+    .card-body {
+        padding: .85rem;
+    }
+}
+
+// Auto-scroll horizontal untuk semua .table yang TIDAK dibungkus .table-responsive
+// (gunakan wrapper .table-responsive untuk hasil terbaik — ini hanya safety net)
+.card-body > .table {
+    margin-bottom: 0;
+}
+
+// Batasi lebar konten pada layar sangat lebar supaya tidak terlalu meregang
+@media (min-width: 1400px) {
+    #layoutSidenav_content .container-fluid {
+        max-width: 1280px;
+    }
+}
+
+// Topnav: nama user dropdown jangan overflow di HP
+.sb-topnav .dropdown-toggle {
+    max-width: 45vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Cegah horizontal scroll body keseluruhan
+body {
+    overflow-x: hidden;
+}
+
+// ===== Dekorasi background area konten admin =====
+// Blob pseudo-element di sudut layar — subtle, tidak mengganggu
+#layoutSidenav_content {
+    background-color: var(--bs-body-bg);
+    position: relative;
+
+    &::before,
+    &::after {
+        content: '';
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    // Blob kanan atas — ungu/indigo
+    &::before {
+        top: -140px;
+        right: -140px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(99, 102, 241, .1) 0%, transparent 70%);
+    }
+
+    // Blob kiri bawah — teal
+    &::after {
+        bottom: -120px;
+        left: 40px;
+        width: 340px;
+        height: 340px;
+        background: radial-gradient(circle, rgba(20, 184, 166, .08) 0%, transparent 70%);
+    }
+}
+
+// Konten utama harus di atas blob
+#layoutSidenav_content main {
+    position: relative;
+    z-index: 1;
+}
+
+// Dark mode: blob lebih redup
+[data-bs-theme="dark"] #layoutSidenav_content {
+    &::before {
+        background: radial-gradient(circle, rgba(99, 102, 241, .14) 0%, transparent 70%);
+    }
+    &::after {
+        background: radial-gradient(circle, rgba(20, 184, 166, .1) 0%, transparent 70%);
+    }
+}
+
+// Sidebar collapsible section toggle button
+// .nav adalah flex container — pastikan button & collapse div full-width
+.sb-sidenav .nav > .sb-section-toggle,
+.sb-sidenav .nav > .collapse,
+.sb-sidenav .nav > .collapsing {
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.sb-sidenav .sb-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .45rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, .4);
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+
+    i.fa-chevron-down {
+        transition: transform .2s ease;
+        opacity: .6;
+    }
+
+    &[aria-expanded="false"] i.fa-chevron-down {
+        transform: rotate(-90deg);
+    }
+
+    &:hover {
+        color: rgba(255, 255, 255, .65);
+    }
+}
+

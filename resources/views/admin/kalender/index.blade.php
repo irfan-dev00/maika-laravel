@@ -28,6 +28,35 @@
                 </form>
             </div>
             <div class="card-body">
+                <div class="d-flex flex-column flex-lg-row gap-3 justify-content-between align-items-lg-center mb-3">
+                    <div>
+                        <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                            <span class="fw-semibold">Status bulan {{ str_pad($bulan, 2, '0', STR_PAD_LEFT) }}/{{ $tahun }}</span>
+                            @if ($ringkasanBulan['statusBulan'] === 'kosong')
+                                <span class="badge text-bg-danger">Belum ada tanggal</span>
+                            @elseif ($ringkasanBulan['statusBulan'] === 'belum_lengkap')
+                                <span class="badge text-bg-warning">Belum lengkap</span>
+                            @else
+                                <span class="badge text-bg-success">Lengkap</span>
+                            @endif
+                        </div>
+                        <div class="small text-body-secondary">
+                            Terisi {{ $ringkasanBulan['totalTerisi'] }} dari {{ $ringkasanBulan['totalHari'] }} hari.
+                            Operasional: {{ $ringkasanBulan['totalOperasional'] }},
+                            libur: {{ $ringkasanBulan['totalLibur'] }},
+                            kurang: {{ $ringkasanBulan['totalKurang'] }}.
+                        </div>
+                    </div>
+                    <form method="post" action="{{ route('kalender.generate-bulan') }}"
+                          onsubmit="return confirm('Generate kalender untuk bulan ini? Tanggal yang sudah ada tidak akan diubah.')">
+                        @csrf
+                        <input type="hidden" name="bulan" value="{{ $bulan }}">
+                        <input type="hidden" name="tahun" value="{{ $tahun }}">
+                        <button class="btn btn-success" type="submit">
+                            Generate Bulan Ini
+                        </button>
+                    </form>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped align-middle">
                         <thead>
@@ -126,4 +155,3 @@ document.querySelectorAll('.btn-cancel-edit').forEach(function (btn) {
 });
 </script>
 @endpush
-

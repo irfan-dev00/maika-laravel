@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreKalenderOperasionalRequest;
 use App\Http\Requests\Admin\UpdateKalenderOperasionalRequest;
 use App\Models\KalenderOperasional;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class KalenderOperasionalController extends Controller
@@ -24,7 +25,25 @@ class KalenderOperasionalController extends Controller
             ->orderBy('tanggal')
             ->get();
 
-        return view('admin.kalender.index', compact('kalender', 'bulan', 'tahun'));
+        $totalHari = $start->daysInMonth;
+        $totalTerisi = $kalender->count();
+        $totalOperasional = $kalender->where('status', 'operasional')->count();
+        $totalLibur = $kalender->where('status', 'libur')->count();
+        $totalKurang = max(0, $totalHari - $totalTerisi);
+        $statusBulan = $totalTerisi === 0
+            ? 'kosong'
+            : ($totalTerisi < $totalHari ? 'belum_lengkap' : 'lengkap');
+
+        $ringkasanBulan = compact(
+            'totalHari',
+            'totalTerisi',
+            'totalOperasional',
+            'totalLibur',
+            'totalKurang',
+            'statusBulan'
+        );
+
+        return view('admin.kalender.index', compact('kalender', 'bulan', 'tahun', 'ringkasanBulan'));
     }
 
     public function create()
@@ -37,6 +56,38 @@ class KalenderOperasionalController extends Controller
         KalenderOperasional::create($request->validated());
 
         return redirect('/admin/kalender')->with('success', 'Kalender operasional berhasil ditambahkan.');
+    }
+
+    public function generateBulan(Request $request)
+    {
+        $validated = $request->validate([
+            'bulan' => ['required', 'integer', 'min:1', 'max:12'],
+            'tahun' => ['required', 'integer', 'min:2000', 'max:2100'],
+        ]);
+
+        $bulan = (int) $validated['bulan'];
+        $tahun = (int) $validated['tahun'];
+
+        $start = Carbon::createFromDate($tahun, $bulan, 1)->startOfMonth();
+        $end = (clone $start)->endOfMonth();
+        $inserted = 0;
+
+        foreach (CarbonPeriod::create($start, $end) as $date) {
+            $row = KalenderOperasional::firstOrCreate(
+                ['tanggal' => $date->toDateString()],
+                ['status' => 'operasional', 'keterangan' => null]
+            );
+
+            if ($row->wasRecentlyCreated) {
+                $inserted++;
+            }
+        }
+
+        $message = $inserted > 0
+            ? "Generate kalender berhasil. {$inserted} tanggal baru ditambahkan."
+            : 'Kalender bulan ini sudah lengkap. Tidak ada tanggal baru yang ditambahkan.';
+
+        return redirect("/admin/kalender?bulan={$bulan}&tahun={$tahun}")->with('success', $message);
     }
 
     public function edit(KalenderOperasional $kalender)
@@ -62,4 +113,3 @@ class KalenderOperasionalController extends Controller
         return redirect('/admin/kalender')->with('success', 'Kalender operasional berhasil dihapus.');
     }
 }
-

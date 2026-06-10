@@ -42,6 +42,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('mitra', MitraController::class)->except(['show']);
     Route::resource('produk', ProdukController::class)->except(['show']);
     Route::resource('harga', HargaProdukMitraBulananController::class)->except(['show']);
+    Route::post('kalender/generate-bulan', [KalenderOperasionalController::class, 'generateBulan'])->name('kalender.generate-bulan');
     Route::resource('kalender', KalenderOperasionalController::class)->except(['show']);
 
     Route::resource('produksi', ProduksiHarianController::class)->except(['show']);

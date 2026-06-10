@@ -14,7 +14,7 @@
             document.documentElement.setAttribute('data-bs-theme', theme);
         })();
     </script>
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" data-sb-topnav>
@@ -203,7 +203,7 @@
         </footer>
     </div>
 </div>
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 @stack('scripts')
 </body>
 </html>

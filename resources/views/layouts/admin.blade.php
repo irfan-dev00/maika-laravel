@@ -208,6 +208,7 @@
             $gitPath = base_path('.git');
             $lastCommit = '-';
             $lastPull = '-';
+            $wibTimezone = 'Asia/Jakarta';
             $head = $readGitFile($gitPath . DIRECTORY_SEPARATOR . 'HEAD');
 
             if ($head && str_starts_with($head, 'ref: ')) {
@@ -233,7 +234,7 @@
 
             if ($reflog && preg_match_all('/^.*? (\d+) [+-]\d{4}\tpull\b.*$/m', $reflog, $matches)) {
                 try {
-                    $lastPull = \Carbon\Carbon::createFromTimestamp((int) end($matches[1]))->format('d M Y H:i');
+                    $lastPull = \Carbon\Carbon::createFromTimestamp((int) end($matches[1]), $wibTimezone)->format('d M Y H:i') . ' WIB';
                 } catch (\Throwable $e) {
                     $lastPull = '-';
                 }
@@ -243,7 +244,7 @@
                 $fetchHead = $gitPath . DIRECTORY_SEPARATOR . 'FETCH_HEAD';
 
                 if (is_file($fetchHead)) {
-                    $lastPull = \Carbon\Carbon::createFromTimestamp(filemtime($fetchHead))->format('d M Y H:i');
+                    $lastPull = \Carbon\Carbon::createFromTimestamp(filemtime($fetchHead), $wibTimezone)->format('d M Y H:i') . ' WIB';
                 }
             }
         @endphp
@@ -252,6 +253,7 @@
                 <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 small text-body-secondary">
                     <div>
                         {{ config('app.name', 'Maika') }} dibuat oleh <strong>karepku.to Dev</strong>. create with love
+                        <i class="fa-solid fa-heart text-danger ms-1" aria-label="love"></i>
                     </div>
                     <div class="d-flex flex-column flex-sm-row gap-1 gap-sm-3">
                         <span>Terakhir pull: <strong>{{ $lastPull }}</strong></span>

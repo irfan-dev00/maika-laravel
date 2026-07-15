@@ -195,26 +195,55 @@
             @yield('content')
         </main>
         @php
-            $runGitCommand = function (string $command): ?string {
-                if (!function_exists('shell_exec')) {
+            $readGitFile = function (string $path): ?string {
+                if (!is_file($path) || !is_readable($path)) {
                     return null;
                 }
 
-                $errorRedirect = PHP_OS_FAMILY === 'Windows' ? ' 2>NUL' : ' 2>/dev/null';
-                $output = @shell_exec('git -C ' . escapeshellarg(base_path()) . ' ' . $command . $errorRedirect);
+                $content = @file_get_contents($path);
 
-                return is_string($output) ? trim($output) : null;
+                return is_string($content) ? trim($content) : null;
             };
 
-            $lastCommit = $runGitCommand('rev-parse --short HEAD') ?: '-';
+            $gitPath = base_path('.git');
+            $lastCommit = '-';
             $lastPull = '-';
-            $reflog = $runGitCommand('reflog --date=iso');
+            $head = $readGitFile($gitPath . DIRECTORY_SEPARATOR . 'HEAD');
 
-            if ($reflog && preg_match('/HEAD@\{([^}]+)\}: pull\b/', $reflog, $matches)) {
+            if ($head && str_starts_with($head, 'ref: ')) {
+                $ref = trim(substr($head, 5));
+                $commit = $readGitFile($gitPath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $ref));
+
+                if (!$commit) {
+                    $packedRefs = $readGitFile($gitPath . DIRECTORY_SEPARATOR . 'packed-refs');
+
+                    if ($packedRefs && preg_match('/^([a-f0-9]{40}) ' . preg_quote($ref, '/') . '$/m', $packedRefs, $matches)) {
+                        $commit = $matches[1];
+                    }
+                }
+
+                if ($commit) {
+                    $lastCommit = substr($commit, 0, 7);
+                }
+            } elseif ($head && preg_match('/^[a-f0-9]{40}$/i', $head)) {
+                $lastCommit = substr($head, 0, 7);
+            }
+
+            $reflog = $readGitFile($gitPath . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'HEAD');
+
+            if ($reflog && preg_match_all('/^.*? (\d+) [+-]\d{4}\tpull\b.*$/m', $reflog, $matches)) {
                 try {
-                    $lastPull = \Carbon\Carbon::parse($matches[1])->format('d M Y H:i');
+                    $lastPull = \Carbon\Carbon::createFromTimestamp((int) end($matches[1]))->format('d M Y H:i');
                 } catch (\Throwable $e) {
-                    $lastPull = $matches[1];
+                    $lastPull = '-';
+                }
+            }
+
+            if ($lastPull === '-') {
+                $fetchHead = $gitPath . DIRECTORY_SEPARATOR . 'FETCH_HEAD';
+
+                if (is_file($fetchHead)) {
+                    $lastPull = \Carbon\Carbon::createFromTimestamp(filemtime($fetchHead))->format('d M Y H:i');
                 }
             }
         @endphp

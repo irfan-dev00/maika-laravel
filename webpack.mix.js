@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
 
+mix.setResourceRoot('../');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

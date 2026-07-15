@@ -61,7 +61,7 @@
                         <span>Core</span>
                         <i class="fa-solid fa-chevron-down fa-xs"></i>
                     </button>
-                    <div id="coreSection" class="collapse show" data-bs-parent="#sidenavAccordion">
+                    <div id="coreSection" class="collapse show">
                         <a class="nav-link {{ request()->is('admin') || request()->is('admin/operasi*') ? 'active' : '' }}" href="{{ url('/admin/operasi') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-gauge"></i></div>
                             Operasi Harian
@@ -74,7 +74,7 @@
                         <span>Master Data</span>
                         <i class="fa-solid fa-chevron-down fa-xs"></i>
                     </button>
-                    <div id="masterDataSection" class="collapse show" data-bs-parent="#sidenavAccordion">
+                    <div id="masterDataSection" class="collapse show">
                         <a class="nav-link {{ request()->is('admin/mitra*') ? 'active' : '' }}" href="{{ url('/admin/mitra') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-store"></i></div>
                             Mitra
@@ -99,7 +99,7 @@
                         <span>Transaksi</span>
                         <i class="fa-solid fa-chevron-down fa-xs"></i>
                     </button>
-                    <div id="transaksiSection" class="collapse show" data-bs-parent="#sidenavAccordion">
+                    <div id="transaksiSection" class="collapse show">
                         <a class="nav-link {{ request()->is('admin/produksi*') ? 'active' : '' }}" href="{{ url('/admin/produksi') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-industry"></i></div>
                             Produksi Harian
@@ -120,7 +120,7 @@
                         <span>Keuangan</span>
                         <i class="fa-solid fa-chevron-down fa-xs"></i>
                     </button>
-                    <div id="keuanganSection" class="collapse show" data-bs-parent="#sidenavAccordion">
+                    <div id="keuanganSection" class="collapse show">
                         <a class="nav-link {{ request()->is('admin/biaya*') ? 'active' : '' }}" href="{{ url('/admin/biaya') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-receipt"></i></div>
                             Biaya Harian
@@ -137,7 +137,7 @@
                         <span>Rekap</span>
                         <i class="fa-solid fa-chevron-down fa-xs"></i>
                     </button>
-                    <div id="rekapSection" class="collapse" data-bs-parent="#sidenavAccordion">
+                    <div id="rekapSection" class="collapse">
                         <a class="nav-link {{ request()->is('admin/rekap') ? 'active' : '' }}" href="{{ url('/admin/rekap') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-gauge-high"></i></div>
                             Dashboard
@@ -175,7 +175,7 @@
                         <span>Pengaturan</span>
                         <i class="fa-solid fa-chevron-down fa-xs"></i>
                     </button>
-                    <div id="pengaturanSection" class="collapse" data-bs-parent="#sidenavAccordion">
+                    <div id="pengaturanSection" class="collapse">
                         <a class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}" href="{{ url('/admin/users') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-users-gear"></i></div>
                             Manajemen User
@@ -194,10 +194,40 @@
         <main>
             @yield('content')
         </main>
+        @php
+            $runGitCommand = function (string $command): ?string {
+                if (!function_exists('shell_exec')) {
+                    return null;
+                }
+
+                $errorRedirect = PHP_OS_FAMILY === 'Windows' ? ' 2>NUL' : ' 2>/dev/null';
+                $output = @shell_exec('git -C ' . escapeshellarg(base_path()) . ' ' . $command . $errorRedirect);
+
+                return is_string($output) ? trim($output) : null;
+            };
+
+            $lastCommit = $runGitCommand('rev-parse --short HEAD') ?: '-';
+            $lastPull = '-';
+            $reflog = $runGitCommand('reflog --date=iso');
+
+            if ($reflog && preg_match('/HEAD@\{([^}]+)\}: pull\b/', $reflog, $matches)) {
+                try {
+                    $lastPull = \Carbon\Carbon::parse($matches[1])->format('d M Y H:i');
+                } catch (\Throwable $e) {
+                    $lastPull = $matches[1];
+                }
+            }
+        @endphp
         <footer class="py-4 bg-body-tertiary mt-auto">
             <div class="container-fluid px-4">
-                <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-body-secondary">{{ config('app.name', 'Maika') }}</div>
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 small text-body-secondary">
+                    <div>
+                        {{ config('app.name', 'Maika') }} dibuat oleh <strong>karepku.to Dev</strong>. create with love
+                    </div>
+                    <div class="d-flex flex-column flex-sm-row gap-1 gap-sm-3">
+                        <span>Terakhir pull: <strong>{{ $lastPull }}</strong></span>
+                        <span>Commit: <code>{{ $lastCommit }}</code></span>
+                    </div>
                 </div>
             </div>
         </footer>

@@ -144,23 +144,34 @@
                     <div class="card-body d-flex justify-content-between align-items-start">
                         <div class="flex-grow-1">
                             <div class="small text-body-secondary text-uppercase fw-semibold mb-1">Pengiriman</div>
-                            <div class="fs-5 fw-bold {{ $summary['pengiriman_done'] === $summary['pengiriman_total'] && $summary['pengiriman_total'] > 0 ? 'text-success' : 'text-primary' }}">
-                                {{ $summary['pengiriman_done'] }} / {{ $summary['pengiriman_total'] }}
-                                <span class="fs-6 fw-normal text-body-secondary">mitra</span>
-                            </div>
-                            <div class="progress mt-2" style="height:5px">
-                                <div class="progress-bar bg-primary" style="width:{{ $pctPengiriman }}%"></div>
-                            </div>
-                            <div class="small text-body-secondary mt-1">{{ $pctPengiriman }}% selesai</div>
+                            @if ($summary['pengiriman_total'] > 0)
+                                <div class="fs-5 fw-bold {{ $summary['pengiriman_done'] === $summary['pengiriman_total'] ? 'text-success' : 'text-primary' }}">
+                                    {{ $summary['pengiriman_done'] }} / {{ $summary['pengiriman_total'] }}
+                                    <span class="fs-6 fw-normal text-body-secondary">mitra</span>
+                                </div>
+                                <div class="progress mt-2" style="height:5px">
+                                    <div class="progress-bar bg-primary" style="width:{{ $pctPengiriman }}%"></div>
+                                </div>
+                                <div class="small text-body-secondary mt-1">{{ $pctPengiriman }}% selesai</div>
+                            @else
+                                <div class="fs-5 fw-bold text-body-secondary">Belum ada mitra aktif</div>
+                                <div class="small text-warning mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Data mitra diperlukan</div>
+                            @endif
                         </div>
                         <div class="ms-3">
                             <i class="fa-solid fa-truck fa-2x text-primary opacity-50"></i>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0 pt-0">
-                        <a class="btn btn-sm btn-outline-primary w-100" href="{{ url('/admin/pengiriman/matriks?tanggal='.$tanggalStr) }}">
-                            <i class="fa-solid fa-table-cells me-1"></i>Matriks
-                        </a>
+                        @if ($summary['pengiriman_total'] > 0)
+                            <a class="btn btn-sm btn-outline-primary w-100" href="{{ url('/admin/pengiriman/matriks?tanggal='.$tanggalStr) }}">
+                                <i class="fa-solid fa-table-cells me-1"></i>Matriks
+                            </a>
+                        @else
+                            <a class="btn btn-sm btn-outline-secondary w-100" href="{{ url('/admin/mitra') }}">
+                                <i class="fa-solid fa-store me-1"></i>Kelola Mitra
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -171,23 +182,34 @@
                     <div class="card-body d-flex justify-content-between align-items-start">
                         <div class="flex-grow-1">
                             <div class="small text-body-secondary text-uppercase fw-semibold mb-1">Laporan Penjualan</div>
-                            <div class="fs-5 fw-bold {{ $summary['laporan_done'] === $summary['laporan_total'] && $summary['laporan_total'] > 0 ? 'text-success' : 'text-info' }}">
-                                {{ $summary['laporan_done'] }} / {{ $summary['laporan_total'] }}
-                                <span class="fs-6 fw-normal text-body-secondary">mitra</span>
-                            </div>
-                            <div class="progress mt-2" style="height:5px">
-                                <div class="progress-bar bg-info" style="width:{{ $pctLaporan }}%"></div>
-                            </div>
-                            <div class="small text-body-secondary mt-1">{{ $pctLaporan }}% selesai</div>
+                            @if ($summary['laporan_total'] > 0)
+                                <div class="fs-5 fw-bold {{ $summary['laporan_done'] === $summary['laporan_total'] ? 'text-success' : 'text-info' }}">
+                                    {{ $summary['laporan_done'] }} / {{ $summary['laporan_total'] }}
+                                    <span class="fs-6 fw-normal text-body-secondary">mitra</span>
+                                </div>
+                                <div class="progress mt-2" style="height:5px">
+                                    <div class="progress-bar bg-info" style="width:{{ $pctLaporan }}%"></div>
+                                </div>
+                                <div class="small text-body-secondary mt-1">{{ $pctLaporan }}% selesai</div>
+                            @else
+                                <div class="fs-5 fw-bold text-body-secondary">Belum ada mitra aktif</div>
+                                <div class="small text-warning mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Data mitra diperlukan</div>
+                            @endif
                         </div>
                         <div class="ms-3">
                             <i class="fa-solid fa-file-invoice-dollar fa-2x text-info opacity-50"></i>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0 pt-0">
-                        <a class="btn btn-sm btn-outline-info w-100" href="{{ url('/admin/laporan/matriks?tanggal='.$tanggalStr) }}">
-                            <i class="fa-solid fa-table-cells me-1"></i>Matriks
-                        </a>
+                        @if ($summary['laporan_total'] > 0)
+                            <a class="btn btn-sm btn-outline-info w-100" href="{{ url('/admin/laporan/matriks?tanggal='.$tanggalStr) }}">
+                                <i class="fa-solid fa-table-cells me-1"></i>Matriks
+                            </a>
+                        @else
+                            <a class="btn btn-sm btn-outline-secondary w-100" href="{{ url('/admin/mitra') }}">
+                                <i class="fa-solid fa-store me-1"></i>Kelola Mitra
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>

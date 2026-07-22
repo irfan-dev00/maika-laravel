@@ -58,6 +58,7 @@ $RECYCLE.BIN/
 # ============================================================
 # Misc
 # ============================================================
+graphify-out/
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml

@@ -1,11 +1,11 @@
-# Manual Book — Sistem Maika
+# Panduan Penggunaan — Sistem Maika
 
 Dokumen ini menjelaskan cara menggunakan modul-modul yang sudah tersedia pada sistem Maika (Laravel + SB Admin Bootstrap 5).
 
 ## 1. Gambaran Umum
 
 Sistem Maika membantu pencatatan operasional harian dan keuangan untuk penjualan konsinyasi ke mitra (titip jual), meliputi:
-- Master data (mitra, produk, harga bulanan, kalender operasional).
+- Data master (mitra, produk, harga bulanan, kalender operasional).
 - Transaksi harian (produksi, pengiriman, laporan penjualan).
 - Keuangan (biaya harian, pembayaran mitra).
 - Rekap (ringkasan owner dan per mitra).
@@ -14,14 +14,14 @@ Sistem Maika membantu pencatatan operasional harian dan keuangan untuk penjualan
 
 Urutan input yang paling aman agar hasil rekap konsisten:
 1) Set **Kalender Operasional** (wajib)
-2) Input **Mitra** dan **Produk**
-3) Set **Harga Bulanan** (untuk dipakai saat pengiriman/laporan bila Anda menginput harga)
+2) Masukkan **Mitra** dan **Produk**
+3) Atur **Harga Bulanan** (untuk dipakai saat pengiriman/laporan bila Anda memasukkan harga)
 4) Harian:
-   - Input **Produksi Harian** (stok siap jual)
-   - Input **Pengiriman Mitra** (jumlah titip + harga)
-   - Input **Laporan Penjualan Mitra** (hasil titip/jual)
-   - Input **Pembayaran Mitra** (jika ada pembayaran)
-   - Input **Biaya Harian** (operasional)
+   - Masukkan **Produksi Harian** (stok siap jual)
+   - Masukkan **Pengiriman Mitra** (jumlah titip + harga)
+   - Masukkan **Laporan Penjualan Mitra** (hasil titip/jual)
+   - Masukkan **Pembayaran Mitra** (jika ada pembayaran)
+   - Masukkan **Biaya Harian** (operasional)
 5) Pantau **Rekap**
 
 ## 2. Akses & Navigasi
@@ -47,13 +47,13 @@ Menu admin tersedia di URL:
 
 Catatan: Pada versi saat ini, route admin belum diproteksi login/middleware. Jika nanti ditambahkan login, menu dan akses akan mengikuti hak akses user/role.
 
-### 2.2. Tema Light/Dark
+### 2.2. Tema Terang/Gelap
 
-Di topbar terdapat tombol tema. Saat diklik, tema berubah Light/Dark dan disimpan di browser (localStorage) sehingga tetap konsisten ketika halaman di-refresh.
+Di topbar terdapat tombol tema. Saat diklik, tema berubah Terang/Gelap dan disimpan di browser (localStorage) sehingga tetap konsisten ketika halaman di-refresh.
 
 ## 3. Aturan Sistem Penting
 
-### 3.1. Gate Kalender Operasional (blok hari libur)
+### 3.1. Gerbang Kalender Operasional (blok hari libur)
 
 Semua transaksi harian (Produksi, Pengiriman, Laporan, Biaya, Pembayaran) mengikuti aturan:
 - Jika tanggal berstatus **libur** di Kalender Operasional, transaksi **ditolak**.
@@ -67,7 +67,7 @@ Pastikan Kalender Operasional sudah terisi untuk tanggal-tanggal yang akan dipak
 - Laporan Penjualan Mitra: 1 mitra + 1 tanggal hanya boleh 1 header laporan.
 - Pembayaran Mitra: 1 laporan penjualan hanya boleh punya 1 pembayaran.
 
-## 4. Master Data (Fase 1)
+## 4. Data Master (Fase 1)
 
 ### 4.1. Mitra
 
@@ -77,7 +77,7 @@ Fungsi:
 - Menambah/mengubah/menghapus mitra.
 - Menandai mitra aktif/nonaktif.
 
-Field utama:
+Kolom utama:
 - Kode Mitra (unik)
 - Nama
 - Telepon (opsional)
@@ -92,7 +92,7 @@ Fungsi:
 - Menambah/mengubah/menghapus produk.
 - Menandai produk aktif/nonaktif.
 
-Field utama:
+Kolom utama:
 - Kode Produk (unik)
 - Nama
 - Satuan (opsional)
@@ -106,7 +106,7 @@ Menu: **Master Data → Harga Bulanan**
 Fungsi:
 - Menyimpan harga jual per mitra per produk per bulan.
 
-Field utama:
+Kolom utama:
 - Mitra
 - Produk
 - Tahun, Bulan
@@ -124,7 +124,7 @@ Fungsi:
 - Menentukan hari operasional/libur.
 - Menjadi “gerbang” untuk semua transaksi.
 
-Field:
+Kolom:
 - Tanggal (unik)
 - Status: operasional / libur
 - Keterangan (opsional)
@@ -139,7 +139,7 @@ Konsep:
 - Header: tanggal + catatan
 - Detail: per produk
 
-Cara input:
+Cara memasukkan data:
 1) Klik **Tambah** → isi Tanggal → Simpan.
 2) Pada halaman edit, tambahkan detail per produk:
    - Stok Awal
@@ -160,7 +160,7 @@ Konsep:
 - Header: tanggal + mitra + catatan
 - Detail: per produk yang dititip
 
-Cara input:
+Cara memasukkan data:
 1) Klik **Tambah** → isi Tanggal & Mitra → Simpan.
 2) Pada halaman edit, tambahkan detail:
    - Produk
@@ -179,7 +179,7 @@ Konsep:
 - Header: tanggal + mitra + catatan
 - Detail: hasil penjualan per produk
 
-Cara input:
+Cara memasukkan data:
 1) Klik **Tambah** → isi Tanggal & Mitra → Simpan.
 2) Pada halaman edit, tambahkan detail:
    - Produk
@@ -211,11 +211,11 @@ Konsep:
 - Header: tanggal + catatan
 - Detail: item biaya (qty × harga)
 
-Cara input:
+Cara memasukkan data:
 1) Klik **Tambah** → isi Tanggal → Simpan.
 2) Pada halaman edit, tambah detail biaya:
    - Nama Item
-   - Qty (opsional)
+   - Kuantitas (opsional)
    - Satuan (opsional)
    - Harga Satuan (opsional)
 
@@ -230,7 +230,7 @@ Menu: **Keuangan → Pembayaran Mitra**
 Konsep:
 - Pembayaran dihubungkan ke 1 **Laporan Penjualan Mitra**.
 
-Cara input:
+Cara memasukkan data:
 1) Klik **Tambah**.
 2) Isi:
    - Tanggal
@@ -252,7 +252,7 @@ Menu: **Rekap → Rekap & Laporan** (`/admin/rekap`)
 
 ### 7.1. Rekap Harian Owner
 
-Menampilkan ringkasan per tanggal dalam range:
+Menampilkan ringkasan per tanggal dalam rentang:
 - Omzet: SUM(detail_laporan_penjualan_mitra.total_penjualan)
 - Margin: SUM(detail_laporan_penjualan_mitra.total_margin)
 - Biaya: biaya_harian.total_biaya
@@ -261,13 +261,13 @@ Menampilkan ringkasan per tanggal dalam range:
 
 ### 7.2. Rekap Per Mitra
 
-Menampilkan ringkasan per mitra dalam range:
+Menampilkan ringkasan per mitra dalam rentang:
 - Omzet
 - Margin
 - Pembayaran (confirmed)
 - Selisih = omzet - pembayaran (indikasi piutang jika positif)
 
-## 8. Setup & Operasional Teknis (untuk Admin/IT)
+## 8. Penyiapan & Operasional Teknis (untuk Admin/IT)
 
 ### 8.1. Menjalankan aplikasi (Laragon)
 
@@ -281,17 +281,17 @@ Seeder yang tersedia:
 - RoleSeeder (Owner, Admin)
 - KalenderOperasionalSeeder (membuat tanggal operasional untuk tahun ini dan tahun depan)
 
-### 8.2. Build asset (CSS/JS)
+### 8.2. Build aset (CSS/JS)
 
-Project memakai Laravel Mix (Webpack) untuk asset.
-Jika perlu rebuild:
+Proyek memakai Laravel Mix (Webpack) untuk aset.
+Jika perlu membangun ulang:
 - `npm install`
 - `npm run dev`
 
 Catatan lingkungan:
 - Jika node/npm tidak terbaca dari PATH Windows, gunakan node bawaan Laragon atau pastikan PATH sudah benar.
 
-## 9. Troubleshooting
+## 9. Pemecahan Masalah
 
 ### 9.1. Tidak bisa input transaksi karena “Tanggal libur”
 
@@ -324,4 +324,3 @@ Jika ingin sistem lebih “rapi produksi”:
 - Terapkan role/permission (Owner/Admin) untuk membatasi menu tertentu.
 - Otomasi pengisian harga (ambil dari Harga Bulanan saat input pengiriman/laporan).
 - Tambah rekap stok layak/tidak layak dan laporan piutang per mitra/per tanggal.
-

@@ -1,7 +1,7 @@
 @AGENTS.md
 
-# Claude-specific instructions
+# Instruksi khusus Claude
 
-- Treat `AGENTS.md` as the primary project instruction.
-- Follow its scope, safety, database, Git, and validation rules.
-- Do not duplicate or rewrite those rules unless explicitly requested.
+- Perlakukan `AGENTS.md` sebagai instruksi proyek utama.
+- Ikuti aturan cakupan, keamanan, database, Git, dan validasinya.
+- Jangan menduplikasi atau menulis ulang aturan tersebut kecuali diminta secara eksplisit.

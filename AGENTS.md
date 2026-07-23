@@ -1,47 +1,47 @@
-# Project Agent Instructions
+# Instruksi Agen Proyek
 
-## Scope
+## Cakupan
 
-- Work only inside this repository unless explicitly authorized.
-- Do not modify files unrelated to the requested task.
-- Preserve existing user changes.
-- Ask before changing architecture or expanding the agreed scope.
+- Bekerja hanya di dalam repositori ini kecuali diberi wewenang secara eksplisit.
+- Jangan mengubah file yang tidak terkait dengan tugas yang diminta.
+- Pertahankan perubahan pengguna yang sudah ada.
+- Tanyakan sebelum mengubah arsitektur atau memperluas cakupan yang telah disepakati.
 
-## Environment and secrets
+## Lingkungan dan rahasia
 
-- Never read, modify, reveal, copy, or commit the real `.env`.
-- Files matching `.env.*` may only be read after explicit user approval.
-- Use `.env.example` or `.env-example` as the configuration reference.
-- Never expose credentials, passwords, tokens, private keys, or production endpoints.
+- Jangan pernah membaca, mengubah, mengungkapkan, menyalin, atau melakukan commit pada `.env` asli.
+- File yang cocok dengan `.env.*` hanya boleh dibaca setelah ada persetujuan eksplisit dari pengguna.
+- Gunakan `.env.example` atau `.env-example` sebagai referensi konfigurasi.
+- Jangan pernah mengungkapkan kredensial, kata sandi, token, kunci privat, atau endpoint produksi.
 
-## Git safety
+## Keamanan Git
 
-- Inspect `git status` before editing.
-- Preserve uncommitted changes that already exist.
-- Never run `git reset`, `git clean`, force push, or commands that discard changes.
-- Do not commit or push unless explicitly requested.
-- Review the final diff before declaring completion.
+- Periksa `git status` sebelum mengedit.
+- Pertahankan perubahan yang belum di-commit dan sudah ada.
+- Jangan pernah menjalankan `git reset`, `git clean`, force push, atau perintah yang membuang perubahan.
+- Jangan melakukan commit atau push kecuali diminta secara eksplisit.
+- Tinjau diff akhir sebelum menyatakan pekerjaan selesai.
 
-## Database safety
+## Keamanan database
 
-- Confirm the active environment and database before running database commands.
-- Never run destructive operations such as fresh, reset, drop, truncate, or bulk delete without explicit approval.
-- Prefer read-only inspection while diagnosing database issues.
+- Konfirmasi lingkungan dan database aktif sebelum menjalankan perintah database.
+- Jangan pernah menjalankan operasi destruktif seperti fresh, reset, drop, truncate, atau bulk delete tanpa persetujuan eksplisit.
+- Utamakan pemeriksaan read-only saat mendiagnosis masalah database.
 
-## Workflow
+## Alur kerja
 
-- Understand the existing implementation before editing.
-- Keep changes minimal and consistent with the current architecture.
-- Run relevant tests, linting, or validation.
-- Before finishing, report:
-  - files changed;
-  - commands and tests executed;
-  - failed or skipped validation;
-  - unresolved risks.
+- Pahami implementasi yang ada sebelum mengedit.
+- Jaga perubahan tetap minimal dan konsisten dengan arsitektur saat ini.
+- Jalankan pengujian, linting, atau validasi yang relevan.
+- Sebelum selesai, laporkan:
+  - file yang diubah;
+  - perintah dan pengujian yang dijalankan;
+  - validasi yang gagal atau dilewati;
+  - risiko yang belum terselesaikan.
 
-## Work handoff
+## Serah terima pekerjaan
 
-- Before continuing existing work, read `AI-HANDOFF.md` if it exists.
-- Verify its contents against `git status`, `git diff`, and the current source code.
-- Update `AI-HANDOFF.md` before handing the work to another agent or ending an unfinished task.
-- Do not treat the handoff file as more authoritative than the repository state.
+- Sebelum melanjutkan pekerjaan yang ada, baca `AI-HANDOFF.md` jika tersedia.
+- Verifikasi isinya terhadap `git status`, `git diff`, dan kode sumber saat ini.
+- Perbarui `AI-HANDOFF.md` sebelum menyerahkan pekerjaan kepada agen lain atau mengakhiri tugas yang belum selesai.
+- Jangan perlakukan file serah-terima sebagai sumber yang lebih otoritatif daripada keadaan repositori.

@@ -1,40 +1,40 @@
-# AI Handoff
+# Serah Terima AI
 
-## Current goal
+## Tujuan saat ini
 
 Jelaskan tujuan pekerjaan yang sedang dikerjakan.
 
-## Completed
+## Selesai
 
 - Belum ada.
 
-## In progress
+## Sedang dikerjakan
 
 - Belum ada.
 
-## Files changed
+## File yang diubah
 
 - Belum ada.
 
-## Validation performed
+## Validasi yang dilakukan
 
 - Belum ada.
 
-## Pending work
+## Pekerjaan tertunda
 
 - Belum ada.
 
-## Decisions made
+## Keputusan yang dibuat
 
 - Belum ada.
 
-## Risks and constraints
+## Risiko dan batasan
 
 - Ikuti seluruh aturan pada `AGENTS.md`.
 - Jangan menyentuh `.env` nyata.
 - Jangan menjalankan operasi Git atau database yang destruktif.
 
-## Suggested next step
+## Langkah berikutnya yang disarankan
 
 - Baca `AGENTS.md`.
 - Periksa `git status`.

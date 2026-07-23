@@ -38,3 +38,10 @@
   - commands and tests executed;
   - failed or skipped validation;
   - unresolved risks.
+
+## Work handoff
+
+- Before continuing existing work, read `AI-HANDOFF.md` if it exists.
+- Verify its contents against `git status`, `git diff`, and the current source code.
+- Update `AI-HANDOFF.md` before handing the work to another agent or ending an unfinished task.
+- Do not treat the handoff file as more authoritative than the repository state.
